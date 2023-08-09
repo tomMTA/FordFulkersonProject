@@ -4,7 +4,7 @@
 #include <iterator>
 #include <fstream>
 #include <stdlib.h>
-#include"FordFulkerson.h"
+#include"FordFulkersonHandler.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ bool is_digits(const std::string& str);
 
 int main(int argc, char* argv[])
 {
-	DirectedWeightedGraph* graph = new DirectedWeightedGraph();
+	DirectedWeightedGraph* graph;
 	vector<std::vector<std::string>> textFromFileSplitted;
 	int n, m, t, s;
 	int iterationsBFS, iterationsGreedy;
@@ -57,8 +57,8 @@ int main(int argc, char* argv[])
 	if (*(edgesCount) != m)
 		quitProgram("Number of edges not as specified.");
 
-	//Make enpty graph
-	graph->MakeEmptyGraph(n);
+	//Make empty graph
+	graph = new DirectedWeightedGraph(n);
 
 	//Iterate on rows and build the graph
 	for (int i = 4; i <= m + 3; i++)
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 		graph->AddEdge(x, y, capacity);
 	}
 
-	FordFulkerson handler;
+	FordFulkersonHandler handler;
 
 	double maxFlow = handler.FordFulkersonAlg(graph, s, t, _BFS, &iterationsBFS);
 	cout << "BFS Method:\n"

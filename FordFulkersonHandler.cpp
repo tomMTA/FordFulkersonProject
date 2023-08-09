@@ -1,11 +1,11 @@
-#include "FordFulkerson.h"
+#include "FordFulkersonHandler.h"
 
-FordFulkerson::~FordFulkerson()
+FordFulkersonHandler::~FordFulkersonHandler()
 {
 	delete MinCut;
 }
 
-bool FordFulkerson::BFS(DirectedWeightedGraph* graph, int s, int t, int parent[])
+bool FordFulkersonHandler::BFS(DirectedWeightedGraph* graph, int s, int t, int parent[])
 {
 	//graph is the Residual Graph.
 	//Start visited array(vector) with n elements, init all with 0(false)
@@ -40,7 +40,7 @@ bool FordFulkerson::BFS(DirectedWeightedGraph* graph, int s, int t, int parent[]
 	return (visited[t] == true);
 }
 
-void FordFulkerson::DFS(DirectedWeightedGraph* graph, int s, vector<bool>* visited)
+void FordFulkersonHandler::DFS(DirectedWeightedGraph* graph, int s, vector<bool>* visited)
 {
 	visited->at(s) = true;
 	for (int i = 1; i <= graph->GetNumberOfVertices(); i++)
@@ -48,7 +48,7 @@ void FordFulkerson::DFS(DirectedWeightedGraph* graph, int s, vector<bool>* visit
 			DFS(graph, i, visited);
 }
 
-void FordFulkerson::INIT(DirectedWeightedGraph*& graph, int s, int* parent, double* d)
+void FordFulkersonHandler::INIT(DirectedWeightedGraph*& graph, int s, int parent[], double* d)
 {
 	//initiate also s's neighbour v with C(s,v)
 	//parent = -1: represents no parent. d[v] = -1: represents -infinity
@@ -70,7 +70,7 @@ void FordFulkerson::INIT(DirectedWeightedGraph*& graph, int s, int* parent, doub
 	d[s] = 0;
 }
 
-double FordFulkerson::DIJKSTRA(DirectedWeightedGraph* graph, int s, int t, int parent[])
+double FordFulkersonHandler::DIJKSTRA(DirectedWeightedGraph* graph, int s, int t, int parent[])
 {
 	//returns the flow to improve, and returns the path in parent[]
 	int u, v;
@@ -104,19 +104,19 @@ double FordFulkerson::DIJKSTRA(DirectedWeightedGraph* graph, int s, int t, int p
 	return res;
 }
 
-void FordFulkerson::UpdatePath(DirectedWeightedGraph* graph, int s, int t, int* parent, double flowOnPath)
+void FordFulkersonHandler::UpdatePath(DirectedWeightedGraph* graph, int s, int t, int parent[], double flowOnPath)
 {
 	int u, v;
 	//Update the residual capacity, as well as on the reverse path
 	for (v = t; v != s; v = parent[v])
 	{
 		u = parent[v];
-		graph->UpdateWeight(flowOnPath, ADD, v, u);
-		graph->UpdateWeight(flowOnPath, SUBTRACT, u, v);
+		graph->AddWeight(v, u, flowOnPath);
+		graph->AddWeight(u, v, -flowOnPath);
 	}
 }
 
-double FordFulkerson::FordFulkersonAlg(DirectedWeightedGraph* graph, int s, int t, short method, int* iterations)
+double FordFulkersonHandler::FordFulkersonAlg(DirectedWeightedGraph* graph, int s, int t, short method, int* iterations)
 {
 	//We pass graph by value since we will work on the residual graph from now, not on the original.
 	int u, v;
@@ -170,7 +170,7 @@ double FordFulkerson::FordFulkersonAlg(DirectedWeightedGraph* graph, int s, int 
 	return maxFlow;
 }
 
-void FordFulkerson::PrintMinCut()
+void FordFulkersonHandler::PrintMinCut()
 {
 	int sizeOfS = (*MinCut)[S].size();
 	int sizeOfT = (*MinCut)[T].size();
@@ -198,7 +198,7 @@ void FordFulkerson::PrintMinCut()
 
 }
 
-void FordFulkerson::FindMinCut(DirectedWeightedGraph* resGraph, int s)
+void FordFulkersonHandler::FindMinCut(DirectedWeightedGraph* resGraph, int s)
 {
 	(*MinCut)[S].clear();
 	(*MinCut)[T].clear();

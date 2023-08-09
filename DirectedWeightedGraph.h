@@ -5,19 +5,17 @@ class DirectedWeightedGraph
 {
 private:
 	int n;
-	double** A;
+	double** adjMatrix;
 public:
-#define ADD 0
-#define SUBTRACT 1
+	DirectedWeightedGraph(int n);
 	~DirectedWeightedGraph();
-	void MakeEmptyGraph(int n);
+	DirectedWeightedGraph* CopyGraph();
 	bool IsAdjacent(int u, int v);
 	AdjList GetAdjList(int u);
-	void AddEdge(int u, int v, double c);
+	void AddEdge(int u, int v, double capacity);
 	void RemoveEdge(int u, int v);
-	void print();
+	void Print();
 	int GetNumberOfVertices();
 	double GetCapacity(int u, int v);
-	void UpdateWeight(double value, int operation, int u, int v);
-	DirectedWeightedGraph* CopyGraph();
+	void AddWeight(int u, int v, double value);
 };

@@ -5,16 +5,10 @@ AdjList::AdjList()
 	head = tail = nullptr;
 }
 
-AdjList::AdjList(AdjList&& other)
-{
-	head = other.head;
-	tail = other.tail;
-	other.head = other.tail = nullptr;
-}
-
 AdjList::~AdjList()
 {
-	ListNode* temp;
+	ListNode* temp = nullptr;
+
 	while (head != nullptr)
 	{
 		temp = head;
@@ -25,28 +19,34 @@ AdjList::~AdjList()
 
 void AdjList::Append(int data)
 {
-	ListNode* newNode = new ListNode;
+	ListNode* newNode = new ListNode();
 	newNode->data = data;
 	newNode->next = nullptr;
+
 	if (head == nullptr)
+	{
 		head = tail = newNode;
+	}
 	else
 	{
 		tail->next = newNode;
-		tail = tail->next;
+		tail = newNode;
 	}
 }
 
-void AdjList::remove(int data)
+//todo errors? come here
+void AdjList::Remove(int data)
 {
 	ListNode* temp = head;
+	ListNode* next = nullptr;
+
 	if (temp->data == data)
 	{
 		head = head->next;
 		delete temp;
 		temp = head;
 	}
-	ListNode* next = temp->next;
+	next = temp->next;
 	while (next != nullptr)
 	{
 		if (next->data == data)

@@ -140,7 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AdjList.h" />
     <ClInclude Include="DirectedWeightedGraph.h" />
-    <ClInclude Include="FordFulkerson.h" />
+    <ClInclude Include="FordFulkersonHandler.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="MaxPriorityQueue.h" />
     <ClInclude Include="Queue.h" />
@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClCompile Include="AdjList.cpp" />
     <ClCompile Include="DirectedWeightedGraph.cpp" />
-    <ClCompile Include="FordFulkerson.cpp" />
+    <ClCompile Include="FordFulkersonHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaxPriorityQueue.cpp" />
     <ClCompile Include="Queue.cpp" />

@@ -5,22 +5,23 @@ using namespace std;
 Queue::~Queue()
 {
 	ListNode* temp;
-	while (head != nullptr)
+
+	while (this->head != nullptr)
 	{
-		temp = head;
-		head = head->next;
+		temp = this->head;
+		head = this->head->next;
 		delete temp;
 	}
 }
 
 void Queue::makeEmpty()
 {
-	head = tail = nullptr;
+	this->head = this->tail = nullptr;
 }
 
 bool Queue::isEmpty()
 {
-	return head == nullptr;
+	return this->head == nullptr;
 }
 
 void Queue::Enqueue(int data)
@@ -28,21 +29,25 @@ void Queue::Enqueue(int data)
 	ListNode* newNode = new ListNode;
 	newNode->data = data;
 	newNode->next = nullptr;
-	if (isEmpty())
-		head = tail = newNode;
+
+	if (this->isEmpty())
+	{
+		this->head = this->tail = newNode;
+	}
 	else
 	{
-		tail->next = newNode;
-		tail = newNode;
+		this->tail->next = newNode;
+		this->tail = newNode;
 	}
 }
 
 int Queue::Dequeue()
 {
-	if (!isEmpty())
+	if (!this->isEmpty())
 	{
-		ListNode* temp = head;
-		head = head->next;
+		ListNode* temp = this->head;
+
+		this->head = this->head->next;
 		int data = temp->data;
 		delete temp;
 		return data;
@@ -51,9 +56,10 @@ int Queue::Dequeue()
 		return -1;
 }
 
-void Queue::print()
+void Queue::Print()
 {
-	ListNode* temp = head;
+	ListNode* temp = this->head;
+
 	while (temp != nullptr)
 	{
 		cout << "<-" << temp->data;

@@ -4,50 +4,51 @@ using namespace std;
 
 MaxPriorityQueue::~MaxPriorityQueue()
 {
-	if (!IsEmpty())
+	if (!this->IsEmpty())
 	{
-		delete[]arr;
-		delete[]place;
+		delete[] this->arr;
+		delete[] this->priority;
 	}
 }
 
-void MaxPriorityQueue::Build(double* d, int n)
+void MaxPriorityQueue::Build(double d[], int n)
 {
-	arr = new QueueNode[n];
-	place = new int[n];
-	size = n;
+	this->arr = new QueueNode[n];
+	this->priority = new int[n];
+	this->size = n;
 	for (int v = 1; v <= n; v++)
 	{
-		arr[v - 1].data = v;
-		arr[v - 1].key = d[v];
-		place[v - 1] = v - 1;
+		this->arr[v - 1].data = v;
+		this->arr[v - 1].key = d[v];
+		this->priority[v - 1] = v - 1;
 	}
 	for (int i = n / 2 - 1; i >= 0; i--)
 	{
-		FixHeapDown(i);
+		this->FixHeapDown(i);
 	}
 }
 
+//todo understand this and then reform and validate not empty (what to return?)
 int MaxPriorityQueue::DeleteMax()
 {
-	size--;
-	Swap(0, size);
-	FixHeapDown(0);
-	return arr[size].data;
+	this->size--;
+	this->Swap(0, size);
+	this->FixHeapDown(0);
+	return this->arr[size].data;
 }
 
 bool MaxPriorityQueue::IsEmpty()
 {
-	return size == 0;
+	return this->size == 0;
 }
 
 void MaxPriorityQueue::IncreaseKey(int v, double newKey)
 {
-	int i = place[v - 1];
-	if (arr[i].key < newKey)
+	int i = this->priority[v - 1];
+	if (this->arr[i].key < newKey)
 	{
-		arr[i].key = newKey;
-		FixHeapUp(i);
+		this->arr[i].key = newKey;
+		this->FixHeapUp(i);
 	}
 }
 
@@ -69,37 +70,36 @@ int MaxPriorityQueue::Right(int i)
 void MaxPriorityQueue::FixHeapDown(int i)
 {
 	int max = i;
-	int left = Left(i);
-	int right = Right(i);
+	int left = this->Left(i);
+	int right = this->Right(i);
 
-	if (left < size)//is there a left son
+	if (left < size) //is there a left son
 	{
-		if (arr[left].key > arr[i].key)
+		if (this->arr[left].key > this->arr[i].key)
 		{
 			max = left;
 		}
 	}
-
-	if (right < size)//is there a right son
+	if (right < size) //is there a right son
 	{
-		if (arr[right].key > arr[max].key)
+		if (this->arr[right].key > this->arr[max].key)
 		{
 			max = right;
 		}
 	}
 	if (max != i)
 	{
-		Swap(i, max);
-		FixHeapDown(max);
+		this->Swap(i, max);
+		this->FixHeapDown(max);
 	}
 }
 
 void MaxPriorityQueue::FixHeapUp(int i)
 {
-	while ((i > 0) && arr[Parent(i)].key < arr[i].key)
+	while ((i > 0) && this->arr[this->Parent(i)].key < this->arr[i].key)
 	{
-		Swap(i, Parent(i));
-		i = Parent(i);
+		this->Swap(i, this->Parent(i));
+		i = this->Parent(i);
 	}
 }
 
@@ -107,17 +107,17 @@ void MaxPriorityQueue::Swap(int a, int b)
 {
 	int u = arr[a].data;
 	int v = arr[b].data;
-	int tmp = place[u - 1];
-	place[u - 1] = b;
-	place[v - 1] = a;
+	int tmp = priority[u - 1];
+	priority[u - 1] = b;
+	priority[v - 1] = a;
 	QueueNode temp = arr[a];
 	arr[a] = arr[b];
 	arr[b] = temp;
 }
 
-void MaxPriorityQueue::print()
+void MaxPriorityQueue::Print()
 {
 	for (int i = 0; i < size; i++)
 		cout << i << ". (" << arr[i].data << "," << arr[i].key << ")" << "\t" << arr[i].data << " is #" <<
-		place[arr[i].data - 1] + 1 << " in heap arr" << endl;
+		priority[arr[i].data - 1] + 1 << " in heap arr" << endl;
 }

@@ -18,7 +18,7 @@
     <ClInclude Include="DirectedWeightedGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FordFulkerson.h">
+    <ClInclude Include="FordFulkersonHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListNode.h">
@@ -41,7 +41,7 @@
     <ClCompile Include="DirectedWeightedGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FordFulkerson.cpp">
+    <ClCompile Include="FordFulkersonHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">

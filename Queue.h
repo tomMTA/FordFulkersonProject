@@ -11,5 +11,5 @@ public:
 	bool isEmpty();
 	void Enqueue(int data);
 	int Dequeue();
-	void print();
+	void Print();
 };

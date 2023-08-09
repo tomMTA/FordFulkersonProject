@@ -6,13 +6,13 @@ using namespace std;
 class AdjList
 {
 public:
-	ListNode* head, * tail;
+	ListNode* head;
+	ListNode* tail;
 	AdjList();
-	AdjList(AdjList&& other);
 	~AdjList();
 	void Append(int data);
-	void remove(int data);
-	friend ostream& operator<<(ostream& os, const AdjList& list)
+	void Remove(int data);
+	friend ostream& operator <<(ostream& os, const AdjList& list)
 	{
 		ListNode* temp = list.head;
 		while (temp != nullptr)
