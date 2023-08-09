@@ -25,8 +25,9 @@ int main(int argc, char* argv[])
 
 	//Start from 0 edges
 	*(edgesCount) = 0;
-	//Read file
+	//Read file...
 	std::ifstream input(argv[1]);
+	//std::ifstream input("C:\\Users\\Tom\Desktop\\VS_Projects\\FordFulkersonProject\\inputs\\input1.txt");
 	//Process line by line and count how many edges are present
 	for (std::string line; getline(input, line); )
 	{
