@@ -28,9 +28,14 @@ DirectedWeightedGraph::~DirectedWeightedGraph()
 DirectedWeightedGraph* DirectedWeightedGraph::CopyGraph()
 {
 	DirectedWeightedGraph* copy = new DirectedWeightedGraph(this->n);
+
 	for (int u = 0; u < n; u++)
+	{
 		for (int v = 0; v < n; v++)
+		{
 			copy->adjMatrix[u][v] = this->adjMatrix[u][v];
+		}
+	}
 	return copy;
 }
 
@@ -45,7 +50,7 @@ AdjList DirectedWeightedGraph::GetAdjList(int u)
 
 	for (int i = 0; i < n; i++)
 	{
-		if (adjMatrix[u - 1][i] != 0)
+		if (this->adjMatrix[u - 1][i] != 0)
 		{
 			adjList.Append(i + 1);
 		}
@@ -62,20 +67,6 @@ void DirectedWeightedGraph::AddEdge(int u, int v, double c)
 void DirectedWeightedGraph::RemoveEdge(int u, int v)
 {
 	this->adjMatrix[u - 1][v - 1] = 0;
-}
-
-void DirectedWeightedGraph::Print()
-{
-	for (int i = 0; i < n; i++)
-	{
-		cout << "|\t";
-		for (int j = 0; j < n; j++)
-		{
-			cout << this->adjMatrix[i][j] << '\t';
-		}
-		cout << '|' << endl << endl;
-	}
-	cout << endl;
 }
 
 int DirectedWeightedGraph::GetNumberOfVertices()

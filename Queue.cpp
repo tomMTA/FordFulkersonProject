@@ -27,9 +27,9 @@ bool Queue::isEmpty()
 void Queue::Enqueue(int data)
 {
 	ListNode* newNode = new ListNode;
+
 	newNode->data = data;
 	newNode->next = nullptr;
-
 	if (this->isEmpty())
 	{
 		this->head = this->tail = newNode;
@@ -53,17 +53,7 @@ int Queue::Dequeue()
 		return data;
 	}
 	else
-		return -1;
-}
-
-void Queue::Print()
-{
-	ListNode* temp = this->head;
-
-	while (temp != nullptr)
 	{
-		cout << "<-" << temp->data;
-		temp = temp->next;
+		return -1;
 	}
-	cout << endl;
 }

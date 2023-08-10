@@ -2,17 +2,17 @@
 
 AdjList::AdjList()
 {
-	head = tail = nullptr;
+	this->head = this->tail = nullptr;
 }
 
 AdjList::~AdjList()
 {
 	ListNode* temp = nullptr;
 
-	while (head != nullptr)
+	while (this->head != nullptr)
 	{
-		temp = head;
-		head = head->next;
+		temp = this->head;
+		this->head = this->head->next;
 		delete temp;
 	}
 }
@@ -23,14 +23,14 @@ void AdjList::Append(int data)
 	newNode->data = data;
 	newNode->next = nullptr;
 
-	if (head == nullptr)
+	if (this->head == nullptr)
 	{
-		head = tail = newNode;
+		this->head = this->tail = newNode;
 	}
 	else
 	{
-		tail->next = newNode;
-		tail = newNode;
+		this->tail->next = newNode;
+		this->tail = newNode;
 	}
 }
 
