@@ -66,11 +66,11 @@ int main(int argc, char* argv[])
 
 	FordFulkersonHandler handler;
 
-	double maxFlow = handler.FordFulkersonAlg(graph, s, t, _BFS, &iterationsBFS);
-	printResult("BFS", maxFlow, handler.GetMinCut(), iterationsBFS);
+	double maxFlow = handler.FordFulkersonAlg(graph, s, t, EDMONDS_KARP, &iterationsBFS);
+	printResult("Edmonds–Karp", maxFlow, handler.GetMinCut(), iterationsBFS);
 
-	maxFlow = handler.FordFulkersonAlg(graph, s, t, _GREEDY, &iterationsGreedy);
-	printResult("Greedy", maxFlow, handler.GetMinCut(), iterationsGreedy);
+	maxFlow = handler.FordFulkersonAlg(graph, s, t, DIJKSTRA, &iterationsGreedy);
+	printResult("Dijkstra", maxFlow, handler.GetMinCut(), iterationsGreedy);
 
 	//dynamically allocated
 	delete edgesCount;

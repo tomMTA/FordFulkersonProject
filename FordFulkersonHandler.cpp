@@ -6,9 +6,9 @@ FordFulkersonHandler::~FordFulkersonHandler()
 	delete this->MinCut;
 }
 
-bool FordFulkersonHandler::BFS(DirectedWeightedGraph* graph, int s, int t, int parent[])
+//uses BFS to find a path from s to t, indicated in parent[] if found
+bool FordFulkersonHandler::FindPath(DirectedWeightedGraph* graph, int s, int t, int parent[])
 {
-	//graph is the Residual Graph.
 	//Start visited array(vector) with n elements, init all with 0(false)
 	const int n = graph->GetNumberOfVertices();
 	vector<bool> visited(n + 1, 0);
@@ -35,21 +35,24 @@ bool FordFulkersonHandler::BFS(DirectedWeightedGraph* graph, int s, int t, int p
 				visited[v] = true;
 			}
 		}
+		if (visited[t])
+		{
+			return true;
+		}
 	}
 
-	// If we reached t (the sink) for s (the source) we will return true
-	return visited[t];
+	return false;
 }
 
-//todo return visited instead of pointer? Maybe not because of construction, combining results etc.
-void FordFulkersonHandler::DFS(DirectedWeightedGraph* graph, int s, vector<bool>* visited)
+//uses DFS to find reachable nodes, indicated in visited vector
+void FordFulkersonHandler::TraverseGraph(DirectedWeightedGraph* graph, int s, vector<bool>* visited)
 {
 	visited->at(s) = true;
 	for (int i = 1; i <= graph->GetNumberOfVertices(); i++)
 	{
 		if (graph->GetCapacity(s, i) && !(*visited)[i])
 		{
-			this->DFS(graph, i, visited);
+			this->TraverseGraph(graph, i, visited);
 		}
 	}
 }
@@ -76,8 +79,8 @@ void FordFulkersonHandler::InitFlow(DirectedWeightedGraph*& graph, int s, int pa
 	flow[s] = 0;
 }
 
-//returns the flow to improve, and returns the path in parent[]
-double FordFulkersonHandler::Dijkstra(DirectedWeightedGraph* graph, int s, int t, int parent[])
+//uses Dijkstra to return max flow on a path from s to t, and returns the path in parent[]
+double FordFulkersonHandler::FindMaxFlowOnPath(DirectedWeightedGraph* graph, int s, int t, int parent[])
 {
 	int u, v;
 	int n = graph->GetNumberOfVertices();
@@ -134,16 +137,14 @@ double FordFulkersonHandler::FordFulkersonAlg(DirectedWeightedGraph* graph, int 
 	int n = graph->GetNumberOfVertices();
 	*iterations = 0;
 	DirectedWeightedGraph* residualGraph = graph->CopyGraph();
-
 	int* parent = new int[n + 1];
-
 	double maxFlow = 0;
 	double flowOnPath = 0;
 
 	switch (method)
 	{
-	case _BFS:
-		while (this->BFS(residualGraph, s, t, parent))
+	case EDMONDS_KARP:
+		while (this->FindPath(residualGraph, s, t, parent))
 		{
 			(*iterations)++;
 			flowOnPath = DBL_MAX;
@@ -160,8 +161,8 @@ double FordFulkersonHandler::FordFulkersonAlg(DirectedWeightedGraph* graph, int 
 			maxFlow += flowOnPath;
 		}
 		break;
-	case _GREEDY:
-		flowOnPath = this->Dijkstra(residualGraph, s, t, parent);
+	case DIJKSTRA:
+		flowOnPath = this->FindMaxFlowOnPath(residualGraph, s, t, parent);
 		while (flowOnPath > 0)
 		{
 			(*iterations)++;
@@ -171,7 +172,7 @@ double FordFulkersonHandler::FordFulkersonAlg(DirectedWeightedGraph* graph, int 
 
 			//Update the flow on the path to the overall graph flow
 			maxFlow += flowOnPath;
-			flowOnPath = this->Dijkstra(residualGraph, s, t, parent);
+			flowOnPath = this->FindMaxFlowOnPath(residualGraph, s, t, parent);
 		}
 		break;
 	}
@@ -188,7 +189,6 @@ vector<vector<int>> FordFulkersonHandler::GetMinCut()
 	return *this->MinCut;
 }
 
-//todo return instead of class member?
 void FordFulkersonHandler::CalculateMinCut(DirectedWeightedGraph* residualGraph, int s)
 {
 	int n = residualGraph->GetNumberOfVertices();
@@ -196,7 +196,7 @@ void FordFulkersonHandler::CalculateMinCut(DirectedWeightedGraph* residualGraph,
 
 	(*this->MinCut)[S].clear();
 	(*this->MinCut)[T].clear();
-	this->DFS(residualGraph, s, visited);
+	this->TraverseGraph(residualGraph, s, visited);
 	for (int i = 1; i <= n; i++)
 	{
 		if ((*visited)[i])

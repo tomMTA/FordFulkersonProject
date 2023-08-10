@@ -5,8 +5,8 @@
 
 using namespace std;
 
-#define _BFS 1
-#define _GREEDY 2
+#define EDMONDS_KARP 1
+#define DIJKSTRA 2
 #define S 0
 #define T 1
 

@@ -34,7 +34,6 @@ void AdjList::Append(int data)
 	}
 }
 
-//todo errors? come here
 void AdjList::Remove(int data)
 {
 	ListNode* temp = head;
