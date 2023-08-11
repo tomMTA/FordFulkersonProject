@@ -20,9 +20,8 @@ int main(int argc, char* argv[])
 
 	//Start from 0 edges
 	*(edgesCount) = 0;
-	//Read file...
+	//Read file
 	ifstream input(argv[1]);
-	//ifstream input("C:\\Users\\Tom\Desktop\\VS_Projects\\FordFulkersonProject\\inputs\\input1.txt");
 	//Process line by line and count how many edges are present
 	for (string line; getline(input, line); )
 	{
@@ -66,11 +65,13 @@ int main(int argc, char* argv[])
 
 	FordFulkersonHandler handler;
 
+	int startTime = getTimestamp();
 	double maxFlow = handler.FordFulkersonAlg(graph, s, t, EDMONDS_KARP, &iterationsBFS);
-	printResult("Edmonds–Karp", maxFlow, handler.GetMinCut(), iterationsBFS);
+	printResult("Edmonds Karp", maxFlow, handler.GetMinCut(), iterationsBFS, getTimestamp() - startTime);
 
+	startTime = getTimestamp();
 	maxFlow = handler.FordFulkersonAlg(graph, s, t, DIJKSTRA, &iterationsGreedy);
-	printResult("Dijkstra", maxFlow, handler.GetMinCut(), iterationsGreedy);
+	printResult("Dijkstra", maxFlow, handler.GetMinCut(), iterationsGreedy, getTimestamp() - startTime);
 
 	//dynamically allocated
 	delete edgesCount;

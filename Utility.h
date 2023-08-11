@@ -15,5 +15,6 @@ namespace utility
 	void quitWithMsg(const string msg);
 	template<typename Type>
 	void printVector(vector<Type>);
-	void printResult(string method, double maxFlow, vector<vector<int>> minCut, int iterationsCount);
+	void printResult(string method, double maxFlow, vector<vector<int>> minCut, int iterationsCount, int time);
+	int getTimestamp();
 }

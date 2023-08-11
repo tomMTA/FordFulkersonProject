@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <chrono>
 #include "Utility.h"
 
 using namespace std;
@@ -26,7 +27,7 @@ void utility::printVector(vector<Type> vector)
 	cout << "]. ";
 }
 
-void utility::printResult(string method, double maxFlow, vector<vector<int>> minCut, int iterationsCount)
+void utility::printResult(string method, double maxFlow, vector<vector<int>> minCut, int iterationsCount, int time)
 {
 	cout << method << " Method:\n"
 		<< "Max flow = "
@@ -41,5 +42,14 @@ void utility::printResult(string method, double maxFlow, vector<vector<int>> min
 
 	cout << "Number of iterations: "
 		<< iterationsCount
+		<< "\n";
+
+	cout << "Total time: "
+		<< time
 		<< "\n\n";
+}
+
+int utility::getTimestamp()
+{
+	return chrono::system_clock::now().time_since_epoch().count();
 }
